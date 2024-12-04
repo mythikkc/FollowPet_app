@@ -8,16 +8,25 @@ import {
   Image,
   Animated,
 } from "react-native";
+
 import * as ImagePicker from "expo-image-picker";
 
-export default function RegistroScreen() {
-  const [i_uri, setIUri] = useState(null); // Imagen seleccionada
-  const [s_valor] = useState(new Animated.Value(1)); // Escala de animación
-  const [a_opacidad] = useState(new Animated.Value(0)); // Animación de opacidad
-  const [a_desplazamiento] = useState(new Animated.Value(50)); // Desplazamiento desde abajo
+
+
+export default function RegistroScreen({ navigation }) {
+  const [i_uri, setIUri] = useState(null);
+  const [n_usuario, setNUsuario] = useState("");
+  const [c_correo, setCCorreo] = useState("");
+  const [c_contrasena, setCContrasena] = useState("");
+  const [c_confirmar, setCConfirmar] = useState("");
+  const [b_contrasenaVisible, setBContrasenaVisible] = useState(false);
+  const [b_confirmarVisible, setBConfirmarVisible] = useState(false);
+  const [t_error, setTError] = useState("");
+  const [s_valor] = useState(new Animated.Value(1));
+  const [a_opacidad] = useState(new Animated.Value(0));
+  const [a_desplazamiento] = useState(new Animated.Value(50));
 
   useEffect(() => {
-    // Animación de entrada al cargar la pantalla
     Animated.timing(a_opacidad, {
       toValue: 1,
       duration: 800,
@@ -41,6 +50,41 @@ export default function RegistroScreen() {
 
     if (!r_resultado.canceled) {
       setIUri(r_resultado.assets[0].uri);
+    }
+  };
+
+  const v_validaCampos = () => {
+    if (!n_usuario.match(/^[a-zA-Z0-9_]+$/)) {
+      setTError("El nombre de usuario solo debe contener letras, números y guiones bajos.");
+      return false;
+    }
+
+    
+    const r_correo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!r_correo.test(c_correo)) {
+      setTError("Por favor ingresa un correo válido.");
+      return false;
+    }
+
+    
+    if (c_contrasena !== c_confirmar) {
+      setTError("Las contraseñas no coinciden.");
+      return false;
+    }
+
+    
+    if (c_contrasena.length < 6) {
+      setTError("La contraseña debe tener al menos 6 caracteres.");
+      return false;
+    }
+
+    setTError(""); 
+    return true;
+  };
+
+  const b_registrar = () => {
+    if (v_validaCampos()) {
+      navigation.navigate("InicioS_Screen");
     }
   };
 
@@ -75,9 +119,7 @@ export default function RegistroScreen() {
         <Text style={styles.t_subtitulo}>SOCIAL MEDIA</Text>
       </View>
 
-      {/* Formulario */}
       <View style={styles.v_formulario}>
-        {/* Selección de Imagen */}
         <TouchableOpacity style={styles.t_imagen} onPress={i_selecciona}>
           {i_uri ? (
             <Image source={{ uri: i_uri }} style={styles.i_perfil} />
@@ -88,44 +130,70 @@ export default function RegistroScreen() {
           )}
         </TouchableOpacity>
 
-        {/* Entradas */}
         <TextInput
           style={styles.ti_entrada}
           placeholder="Nombre de usuario"
           placeholderTextColor="#A4A4A4"
+          value={n_usuario}
+          onChangeText={setNUsuario}
         />
         <TextInput
           style={styles.ti_entrada}
           placeholder="Correo electrónico"
           placeholderTextColor="#A4A4A4"
           keyboardType="email-address"
+          value={c_correo}
+          onChangeText={setCCorreo}
         />
-        <TextInput
-          style={styles.ti_entrada}
-          placeholder="Contraseña"
-          placeholderTextColor="#A4A4A4"
-          secureTextEntry
-        />
-        <TextInput
-          style={styles.ti_entrada}
-          placeholder="Confirmar contraseña"
-          placeholderTextColor="#A4A4A4"
-          secureTextEntry
-        />
+        <View style={styles.v_contrasena}>
+          <TextInput
+            style={styles.ti_entrada}
+            placeholder="Contraseña"
+            placeholderTextColor="#A4A4A4"
+            secureTextEntry={!b_contrasenaVisible}
+            value={c_contrasena}
+            onChangeText={setCContrasena}
+          />
+          <TouchableOpacity
+            onPress={() => setBContrasenaVisible(!b_contrasenaVisible)}
+          >
+            <Text style={styles.t_verTexto}>
+              {b_contrasenaVisible ? "Ocultar" : "Mostrar"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.v_contrasena}>
+          <TextInput
+            style={styles.ti_entrada}
+            placeholder="Confirmar contraseña"
+            placeholderTextColor="#A4A4A4"
+            secureTextEntry={!b_confirmarVisible}
+            value={c_confirmar}
+            onChangeText={setCConfirmar}
+          />
+          <TouchableOpacity
+            onPress={() => setBConfirmarVisible(!b_confirmarVisible)}
+          >
+            <Text style={styles.t_verTexto}>
+              {b_confirmarVisible ? "Ocultar" : "Mostrar"}
+            </Text>
+          </TouchableOpacity>
+        </View>
 
-        {/* Botón */}
+        {t_error ? <Text style={styles.t_error}>{t_error}</Text> : null}
+
         <Animated.View style={{ transform: [{ scale: s_valor }] }}>
           <TouchableOpacity
             style={styles.t_boton}
             onPressIn={s_presiona}
             onPressOut={s_libera}
+            onPress={b_registrar}
           >
             <Text style={styles.t_botonTexto}>Registrarse</Text>
           </TouchableOpacity>
         </Animated.View>
       </View>
 
-      {/* Pie de Página */}
       <View style={styles.v_pie}>
         <Text style={styles.t_pieTexto}>
           ¿Ya tienes cuenta? <Text style={styles.t_pieEnlace}>Inicia sesión</Text>
@@ -227,5 +295,20 @@ const styles = StyleSheet.create({
   t_pieEnlace: {
     color: "#4A90E2",
     fontWeight: "bold",
+  },
+  t_error: {
+    color: "red",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  v_contrasena: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  t_verTexto: {
+    color: "#4A90E2",
+    fontSize: 14,
+    marginRight: 10,
   },
 });
