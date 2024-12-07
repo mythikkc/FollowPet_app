@@ -37,7 +37,7 @@ const PostScreen_c = () => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView contentContainerStyle={styles.Formulario_c}>
+      <ScrollView contenido_c={styles.Formulario_c}>
         <TextInput
           style={styles.Input_f}
           placeholder="Nombre del perro"
