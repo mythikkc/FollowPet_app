@@ -1,4 +1,4 @@
-   import React, { useState } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -15,9 +15,9 @@ const indexScreen = () => {
   const [barraVisible, setBarraVisible] = useState(false);
   const [filtroSel, setFiltroSel] = useState("Reciente");
   const [publicaciones, setPublicaciones] = useState([
-    { id: 1, nombre: "Lia", edad: "1 año", detalle: "Collar blanco", filtro: "Reciente", img: require("./img/perro1.jpeg") },
-    { id: 2, nombre: "Max", edad: "2 años", detalle: "Mancha café", filtro: "Perros", img: require("./img/perro2.jpeg") },
-    { id: 3, nombre: "Rocky", edad: "3 años", detalle: "Pelo negro", filtro: "Veterinaria", img: require("./img/perro2.jpeg") },
+    { id: 1, nombre: "Lia", edad: "1 año", detalle: "Collar blanco", filtro: "Reciente", img: require("../img/perro1.jpeg") },
+    { id: 2, nombre: "Max", edad: "2 años", detalle: "Mancha café", filtro: "Perros", img: require("../img/perro2.jpeg") },
+    { id: 3, nombre: "Rocky", edad: "3 años", detalle: "Pelo negro", filtro: "Veterinaria", img: require("../img/perro2.jpeg") },
   ]);
 
   const filtros = ["Reciente", "Perros", "Veterinaria", "..."];
@@ -101,7 +101,7 @@ const indexScreen = () => {
           />
         </View>
         {/*acá tmb cambias la la ruta de imagen por cual se va actualizar pq esa es fija*/ }
-        <Image source={require("./img/icon.jpg")} style={estilos.perfil_i} />
+        <Image source={require("../img/icon.jpg")} style={estilos.perfil_i} />
       </View>
 
       <View style={estilos.seccion_e}>
@@ -244,8 +244,7 @@ const estilos = StyleSheet.create({
   btn_f: {
     position: "absolute",
     bottom: 20,
-    left: "50%",
-    transform: [{ translateX: -30 }],
+    right: 20,
     backgroundColor: "#F8B13C",
     width: 60,
     height: 60,
@@ -256,4 +255,3 @@ const estilos = StyleSheet.create({
   },
 });
 
-export default indexScreen;  
