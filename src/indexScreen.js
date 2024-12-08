@@ -48,6 +48,7 @@
         
         <View style={styles.ContenedorSaludo_c}>
             <View>
+            {/* aquí el nombre esta fijo, q no se te olvide cambiar al nombre del usuario pls*/ }
             <Text style={styles.TextoSaludo_t}>Hola Mythic!</Text>
             <TextInput
                 style={styles.BarraBusqueda_f}
@@ -56,6 +57,8 @@
             />
             </View>
             <Image
+                        {/* acá igual pero con el icono del perfil cargado */ }
+
             source={{ uri: "" }}
             style={styles.ImagenPerfil_i}
             />
