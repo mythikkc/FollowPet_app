@@ -10,8 +10,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-const { width, height } = Dimensions.get("window"); // Obtén dimensiones de la pantalla
-
+ 
 const PostScreen_c = () => {
   const [form, setForm] = useState({
     name: "",
