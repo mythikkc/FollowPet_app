@@ -19,10 +19,16 @@ const HomeScreen = ({ navigation }) => {
         <SplashScreen />
       ) : (
         <>
-          <Svg height="100%" width="100%" style={styles.svgBackground}>
+        <Svg height="100%" width="100%" style={styles.svgBackground}>
             <Circle cx="50%" cy="15%" r="60" fill="#F8B13C" />
-            <Circle cx="85%" cy="40%" r="80" fill="#FFE194" />
-          </Svg>
+            <Circle cx="80%" cy="47%" r="80" fill="#FFE194" />
+            <Circle cx="30%" cy="57%" r="80" fill="#F8B13C" />
+            <Circle cx="80%" cy="76%" r="70" fill="#FFE194" />
+            <Circle cx="10%" cy="30%" r="50" fill="#F8B13C" />
+            <Circle cx="90%" cy="26%" r="60" fill="#FFE194" />
+            <Circle cx="15%" cy="80%" r="50" fill="#F8B13C" />
+            <Circle cx="50%" cy="90%" r="50" fill="#F8B13C" />
+        </Svg>
           <Animatable.View animation="fadeInUp" delay={500} style={styles.content}>
             <Image source={require("../img/logo.png")} style={styles.logo} />
             <Text style={styles.title}>PET HOUSE</Text>
